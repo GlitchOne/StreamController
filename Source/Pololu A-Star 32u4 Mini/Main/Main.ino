@@ -45,11 +45,13 @@ const int row_4[4]={8,4,0,18};
 const int output[4]={14,15,16,17};
 
 // variables will change:
-int buttonState = 0;         // variable for reading the pushbutton status
-int buttonPressed = 0;
+int buttonState = 0;         //variable for reading the pushbutton status
+int buttonPressed = 0;       //variable for reading the pushbutton number
 
 void LED_Enable (int row, int column) 
 {
+  //Sends a Bit-level style message to the lighting controller
+  //through setting certain pins to high or low
   /*
   Serial.print("[");
   Serial.print(row);
