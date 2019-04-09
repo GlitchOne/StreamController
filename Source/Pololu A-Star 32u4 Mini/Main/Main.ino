@@ -207,6 +207,18 @@ void LED_Enable (int row, int column)
   }
 }
 
+void send_key(char letter)
+{
+  for (int i=0;i<sizeof(modifiers)/sizeof(char);i++)
+  {
+    Keyboard.press(modifiers[i]);
+    delay(100);
+  }
+  Keyboard.press(letter);
+  delay(100);
+  Keyboard.releaseAll();
+}
+
 void send_command(int pressed_button)
 {
   switch (pressed_button)
@@ -218,37 +230,19 @@ void send_command(int pressed_button)
     case 1:
     {
       //Mic Audio On
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('-');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('-');
       break;
     }
     case 2:
     {
       //Mic Audio Off
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('=');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('=');
       break;
     }
     case 3:
     {
       //Replay Buffer On
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('\\');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('\\');
       break;
     }
     case 4:
@@ -259,37 +253,19 @@ void send_command(int pressed_button)
     case 5:
     {
       //Desktop Audio On
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('8');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('8');
       break;
     }
     case 6:
     {
       //Desktop Audio Off
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('9');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('9');
       break;
     }
     case 7:
     {
       //Save Replay Buffer
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('/');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('/');
       break;
     }
     case 8:
@@ -300,49 +276,25 @@ void send_command(int pressed_button)
     case 9:
     {
       //Stream Live
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('1');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('1');
       break;
     }
     case 10:
     {
       //Stream Intro
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('2');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('2');
       break;
     }
     case 11:
     {
       //Stream Pause
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('3');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('3');
       break;
     }
     case 12:
     {
       //Stream Outro
-      Keyboard.press(KEY_LEFT_CTRL);
-      delay(100);
-      Keyboard.press(KEY_LEFT_SHIFT);
-      delay(100);
-      Keyboard.press('4');
-      delay(100);
-      Keyboard.releaseAll();
+      send_key('4');
       break;
     }
     case 13:
@@ -363,18 +315,6 @@ void send_command(int pressed_button)
   }
 }
 
-void send_key(char letter)
-{
-  for (int i=0;i<sizeof(modifiers)/sizeof(char);i++)
-  {
-    Keyboard.press(modifiers[i]);
-    delay(100);
-  }
-  Keyboard.press(letter);
-  delay(100);
-  Keyboard.releaseAll();
-}
-
 void setup() {
   for (int i=0;i<16;i++)
   {
@@ -392,7 +332,7 @@ void setup() {
 }
 
 void loop() {
-  
+
   buttonPressed = 0;
   for (int i=0;i<16;i++)
   {
