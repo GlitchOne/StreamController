@@ -38,11 +38,9 @@
 #include "Keyboard.h"
 
 // constants won't change. They're used here to set pin numbers:
-const int row_1[4]={11,7,3,12};
-const int row_2[4]={10,6,2,13};
-const int row_3[4]={9,5,1,19};
-const int row_4[4]={8,4,0,18};
+const int input[16]={11,7,3,12,10,6,2,13,9,5,1,19,8,4,0,18};
 const int output[4]={14,15,16,17};
+const char modifiers[2]={KEY_RIGHT_CTRL,KEY_RIGHT_SHIFT};
 
 // variables will change:
 int buttonState = 0;         //variable for reading the pushbutton status
@@ -365,22 +363,22 @@ void send_command(int pressed_button)
   }
 }
 
+void send_key(char letter)
+{
+  for (int i=0;i<sizeof(modifiers)/sizeof(char);i++)
+  {
+    Keyboard.press(modifiers[i]);
+    delay(100);
+  }
+  Keyboard.press(letter);
+  delay(100);
+  Keyboard.releaseAll();
+}
+
 void setup() {
-  for (int i=0;i<=3;i++)
+  for (int i=0;i<16;i++)
   {
-    pinMode(row_1[i],INPUT);
-  }
-  for (int i=0;i<=3;i++)
-  {
-    pinMode(row_2[i],INPUT);
-  }
-  for (int i=0;i<=3;i++)
-  {
-    pinMode(row_3[i],INPUT);
-  }
-  for (int i=0;i<=3;i++)
-  {
-    pinMode(row_4[i],INPUT);
+    pinMode(input[i],INPUT);
   }
   for (int i=0;i<=3;i++)
   {
@@ -394,44 +392,18 @@ void setup() {
 }
 
 void loop() {
-  buttonPressed = 0;
-  for (int i=0;i<=3;i++)
-  {
-    buttonState=digitalRead(row_1[i]);
-    if(buttonState == HIGH)
-    {
-      buttonPressed = 1+i;
-      LED_Enable(1,i+1);
-    }
-  }
-  for (int i=0;i<=3;i++)
-  {
-    buttonState=digitalRead(row_2[i]);
-    if(buttonState == HIGH)
-    {
-      buttonPressed = 5+i;
-      LED_Enable(2,i+1);
-    }
-  }
-  for (int i=0;i<=3;i++)
-  {
-    buttonState=digitalRead(row_3[i]);
-    if(buttonState == HIGH)
-    {
-      buttonPressed = 9+i;
-      LED_Enable(3,i+1);
-    }
-  }
-  for (int i=0;i<=3;i++)
-  {
-    buttonState=digitalRead(row_4[i]);
-    if(buttonState == HIGH)
-    {
-      buttonPressed = 13+i;
-      LED_Enable(4,i+1);
-    }
-  }
   
+  buttonPressed = 0;
+  for (int i=0;i<16;i++)
+  {
+    buttonState=digitalRead(input[i]);
+    if(buttonState == HIGH)
+    {
+      buttonPressed = i+1;
+      LED_Enable(1+i/4,1+i%4);
+      break;
+    }
+  }
   if (buttonPressed == 0)
   {
     digitalWrite(14, LOW);
